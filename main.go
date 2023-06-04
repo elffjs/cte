@@ -24,7 +24,7 @@ func request(db *sql.DB, id string) error {
 
 	var recent int
 
-	if err := tx.QueryRow("SELECT count(1) FROM certs WHERE id = $1 AND time > $2", id, now.Add(-window)).Scan(&recent); err != nil {
+	if err := tx.QueryRow("SELECT count(*) FROM certs WHERE id = $1 AND time > $2", id, now.Add(-window)).Scan(&recent); err != nil {
 		return err
 	}
 
@@ -45,7 +45,7 @@ func request(db *sql.DB, id string) error {
 }
 
 func main() {
-	db, err := sql.Open("postgres", "postgresql://Kemper@localhost/postgres?sslmode=disable")
+	db, err := sql.Open("postgres", "postgresql://dimo@localhost/postgres?sslmode=disable")
 	if err != nil {
 		panic(err)
 	}
